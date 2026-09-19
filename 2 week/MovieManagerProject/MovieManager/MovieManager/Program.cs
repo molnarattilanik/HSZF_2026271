@@ -40,6 +40,13 @@
             } while (isRunning);
 
             movieManager.SaveToJson();
+
+            //reports:
+            movieManager.MoviesAfter2000();
+            movieManager.MoviesLongerThanTwoHours();
+            movieManager.AnyMovieMoreThanOneHOur();
+            movieManager.AllMoviesLongerThanHalfAnHour();
+            movieManager.FirstMovieAfter2000AndMoreThanTwoHour();
         }
     }
 }
