@@ -4,6 +4,7 @@ namespace MovieManager
 {
     public interface IMovieManager
     {
+        event EventHandler<string>? OutputGenerated;
         void AddMovie(Movie movie);
         List<Movie> GetAllMovies();
         void SaveToJson();
@@ -16,6 +17,8 @@ namespace MovieManager
 
     public sealed class MovieManager : IMovieManager
     {
+        public event EventHandler<string>? OutputGenerated;
+
         //Copy if newer-re kell állítani, Copy always felül írja arra a fájlt, ami a projektben van, így a program futtatásakor mindig az üres fájl lesz a kimenet, és nem az előzőleg mentett adatok
         private readonly string filePath = "movies.json";
         private List<Movie> movies = new List<Movie>();
@@ -56,7 +59,7 @@ namespace MovieManager
             var moviesAfter2000 = movies.Where(m => m.Published > 2000).ToList();
             foreach (var movie in moviesAfter2000)
             {
-                Console.WriteLine($"Title: {movie.Title}, Length: {movie.Length}, Published: {movie.Published}");
+                OnOutputGenerated($"Title: {movie.Title}, Length: {movie.Length}, Published: {movie.Published}");
             }
         }
 
@@ -65,20 +68,20 @@ namespace MovieManager
             var longMovies = movies.Where(m => m.Length > 120).ToList();
             foreach (var movie in longMovies)
             {
-                Console.WriteLine($"Title: {movie.Title}, Length: {movie.Length}, Published: {movie.Published}");
+                OnOutputGenerated($"Title: {movie.Title}, Length: {movie.Length}, Published: {movie.Published}");
             }
         }
 
         public void AnyMovieMoreThanOneHOur()
         {
             bool anyMovieMoreThanOneHour = movies.Any(m => m.Length > 60);
-            Console.WriteLine($"Is there any movie longer than one hour? {anyMovieMoreThanOneHour}");
+            OnOutputGenerated($"Is there any movie longer than one hour? {anyMovieMoreThanOneHour}");
         }
 
         public void AllMoviesLongerThanHalfAnHour()
         {
             bool allMoviesLongerThanHalfAnHour = movies.All(m => m.Length > 30);
-            Console.WriteLine($"Are all movies longer than half an hour? {allMoviesLongerThanHalfAnHour}");
+            OnOutputGenerated($"Are all movies longer than half an hour? {allMoviesLongerThanHalfAnHour}");
         }
 
         public void FirstMovieAfter2000AndMoreThanTwoHour()
@@ -86,12 +89,17 @@ namespace MovieManager
             var firstMovie = movies.FirstOrDefault(m => m.Published > 2000 && m.Length > 120);
             if (firstMovie != null)
             {
-                Console.WriteLine($"First movie after 2000 and longer than one hour: Title: {firstMovie.Title}, Length: {firstMovie.Length}, Published: {firstMovie.Published}");
+                OnOutputGenerated($"First movie after 2000 and longer than one hour: Title: {firstMovie.Title}, Length: {firstMovie.Length}, Published: {firstMovie.Published}");
             }
             else
             {
-                Console.WriteLine("No movie found after 2000 and longer than one hour.");
+                OnOutputGenerated("No movie found after 2000 and longer than one hour.");
             }
+        }
+
+        private void OnOutputGenerated(string message)
+        {
+            OutputGenerated?.Invoke(this, message);
         }
     }
 }

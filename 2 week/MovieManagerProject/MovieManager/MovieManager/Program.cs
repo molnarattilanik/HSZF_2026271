@@ -5,6 +5,8 @@
         static void Main(string[] args)
         {
             IMovieManager movieManager = new MovieManager();
+            movieManager.OutputGenerated += (_, message) => Console.WriteLine(message);
+
             bool isRunning = true;
 
             do
