@@ -1,17 +1,10 @@
 ﻿namespace MovieManager
 {
-    internal class Program
+    internal partial class Program
     {
-        public sealed class Movie
-        {
-            public string Title { get; set; } = string.Empty;
-            public int Length { get; set; }
-            public int Published { get; set; }
-        }
-
         static void Main(string[] args)
         {
-            List<Movie> movies = new List<Movie>();
+            IMovieManager movieManager = new MovieManager();
             bool isRunning = true;
 
             do
@@ -36,7 +29,7 @@
                     Published = int.Parse(parts[2])
                 };
 
-                movies.Add(movie);
+                movieManager.AddMovie(movie);
 
                 Console.WriteLine("Szeretnél újabb filmet felvenni? (igen/nem)");
                 string response = Console.ReadLine();
@@ -45,6 +38,8 @@
                     isRunning = false;
                 }
             } while (isRunning);
+
+            movieManager.SaveToJson();
         }
     }
 }
