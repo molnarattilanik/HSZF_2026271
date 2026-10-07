@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Demo.ConsoleClient/Demo.ConsoleClient.csproj" />
+  <Project Path="Demo.Logic/Demo.Logic.csproj" Id="9aef548d-01b4-486c-b43d-ae93ab3861c0" />
+  <Project Path="Demo.Models/Demo.Models.csproj" Id="b6aa6f1e-5940-4c51-afe3-77002af5f9f2" />
+  <Project Path="Demo.Repository/Demo.Repository.csproj" Id="d95d8aa7-c759-4cf2-82e5-777bfc8c023d" />
+</Solution>
